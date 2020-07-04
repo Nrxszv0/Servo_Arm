@@ -19,9 +19,9 @@ Servo ser4;
 void setup() {
   Serial.begin(9600);
   ser1.attach(sPin1);
-//  ser2.attach(sPin2);
-//  ser3.attach(sPin3);
-//  ser4.attach(sPin4);
+  ser2.attach(sPin2);
+  ser3.attach(sPin3);
+  ser4.attach(sPin4);
 }
 
 void loop() {
@@ -33,29 +33,28 @@ void loop() {
   delay(dly);
   ch4 = pulseIn(CH4_PIN, HIGH, timeout);
   delay(dly);
-  ch5 = pulseIn(CH5_PIN, HIGH, timeout);
-  delay(dly);
-  ch6 = pulseIn(CH6_PIN, HIGH, timeout);
-  delay(dly);
+//  ch5 = pulseIn(CH5_PIN, HIGH, timeout);
+//  delay(dly);
+//  ch6 = pulseIn(CH6_PIN, HIGH, timeout);
+//  delay(dly);
   sVal1 = map(pulseToPWM(ch1), -255, 255, minAng, maxAng);
-//  sVal2 = map(potVal2, 0, 1023, minAng, maxAng);
-//  sVal3 = map(potVal3, 0, 1023, minAng, maxAng);
-//  sVal4 = map(potVal4, 0, 1023, minAng, maxAng);
+  sVal2 = map(pulseToPWM(ch2), -255, 255, minAng, maxAng);
+  sVal3 = map(pulseToPWM(ch3), -255, 255, minAng, maxAng);
+  sVal4 = map(pulseToPWM(ch4), -255, 255, minAng, maxAng);
   ser1.write(sVal1);
-Serial.println(sVal1);
-//  ser2.write(sVal2);
-//  ser3.write(sVal3);
-//  ser4.write(sVal4);
-//  Serial.print(sVal1);
-//  Serial.print("\t\t");
-//  Serial.print(sVal2);
-//  Serial.print("\t\t");
-//  Serial.print(sVal3);
-//  Serial.print("\t\t");
-//  Serial.println(sVal4);
+  ser2.write(sVal2);
+  ser3.write(sVal3);
+  ser4.write(sVal4);
+  Serial.print(sVal1);
+  Serial.print("\t\t");
+  Serial.print(sVal2);
+  Serial.print("\t\t");
+  Serial.print(sVal3);
+  Serial.print("\t\t");
+  Serial.println(sVal4);
 }
 int pulseToPWM(int pulse) {
-  if(pulse > 1000){
+  if (pulse > 1000) {
     //Check if pulse is above 1000
     pulse = map(pulse, minRecvVal, maxRecvVal, -500, 500); //convert pulse to -500,500. Pulse is not always between 1000,2000 so not directly mapping to -255,255 provides leeway and more precision
     pulse = constrain(pulse, -255, 255); // any num less than -255 turns into -255, any num greater than 255 turns into 255
